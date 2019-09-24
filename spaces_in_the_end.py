@@ -8,6 +8,25 @@ def bin_secret(secret):
     for alpha in secret:
         bin_secret += bin_alpha(alpha)
     return bin_secret
+
+
+def extract_secret(binary_secret):
+    parsed = []
+    part = ''
+    step = 0
+    for i in binary_secret:
+        part += i
+        step += 1
+        if step == 8:
+            if part != '00000000':
+                parsed.append(part)
+                part = ''
+                step = 0
+
+    secret = ''
+    for part in parsed:
+        secret += chr(int(part, 2))
+    return secret
     
 
 def spaces_in_the_end_encode(file, secret):
@@ -36,22 +55,8 @@ def spaces_in_the_end_decode(file):
             else:
                 binary_secret += '0'
 
-    parsed = []
-    part = ''
-    step = 0
-    for i in binary_secret:
-        part += i
-        step += 1
-        if step == 8:
-            if part != '00000000':
-                parsed.append(part)
-                part = ''
-                step = 0
-
-    secret = ''
-    for part in parsed:
-        secret += chr(int(part, 2))
-    return secret #возвращает прямо строку уже декодированную
+    
+    return extract_secret(binary_secret) #возвращает прямо строку уже декодированную
             
     
 
