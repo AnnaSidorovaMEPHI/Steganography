@@ -63,8 +63,8 @@ def registers_decode(file):
 
 
 if __name__ == "__main__":
-    a = registers_encode('onegin.txt', 'Anna Sidorova')
+    a = registers_encode('./textfiles/onegin.txt', 'Anna Sidorova')
     with open('steg.txt', 'w') as file:
         file.write(a)
 
-    print(registers_decode('steg.txt'))
+    print(registers_decode('./textfiles/steg.txt'))

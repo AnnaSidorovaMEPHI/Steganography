@@ -38,7 +38,7 @@ def spaces_after_point_decode(text):
     return extract_secret(message)
 
 if __name__ == "__main__":
-    #text=spaces_after_point_encode('./secret.txt','./acupoftea.txt')
-    text=spaces_after_point_encode('./secret.txt','./Onegin.txt')
+    #text=spaces_after_point_encode('./textfiles/secret.txt','./textfiles/acupoftea.txt')
+    text=spaces_after_point_encode('./textfiles/secret.txt','./textfiles/Onegin.txt')
     print(spaces_after_point_decode(text))
         
