@@ -11,7 +11,7 @@ def spaces_after_point_encode(file1,file2):
     for i in text:
         newtext+=i
         if i=='.':
-            if j<len(message): #с while что-то долго работает
+            if j<len(message):
                 if text[k+1]==' ':
                     newtext+=' '*int(message[j])
                 else:
@@ -23,19 +23,22 @@ def spaces_after_point_encode(file1,file2):
     return newtext #может, файл, а может, и нет..
 
 def spaces_after_point_decode(text):
-    text=list(text)
     k=0
     message=''
     for i in text:
         k+=1
         if i=='.':
-            if text[k+1]==' ':#обдумать
-                message+='1'
+            if text[k+1]==' ':
+                if text[k+2]==' ': # избежание случаев, когда много пробелов изначально
+                    pass
+                else:
+                    message+='1'
             else:
                 message+='0'
     return extract_secret(message)
 
 if __name__ == "__main__":
-    text=spaces_after_point_encode('./secret.txt','./acupoftea.txt')
+    #text=spaces_after_point_encode('./secret.txt','./acupoftea.txt')
+    text=spaces_after_point_encode('./secret.txt','./Onegin.txt')
     print(spaces_after_point_decode(text))
         
