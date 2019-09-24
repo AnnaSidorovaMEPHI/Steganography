@@ -34,10 +34,10 @@ def spaces_in_the_end_decode(file):
 
 
 if __name__ == "__main__":
-    #stego = spaces_in_the_end_encode('onegin.txt', 'abasd')
+    #stego = spaces_in_the_end_encode('./textfiles/onegin.txt', 'abasd')
     #with open('steg.txt', 'w') as file:
     #    for i in stego:
     #        file.write(i)
 
-    destego = spaces_in_the_end_decode('steg.txt')
+    destego = spaces_in_the_end_decode('./textfiles/steg.txt')
     print(destego)
