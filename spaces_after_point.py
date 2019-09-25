@@ -8,9 +8,9 @@ def spaces_after_point_encode(file1,file2):
     k=0
     j=0
     newtext=''
-    for i in text:
-        newtext+=i
-        if i=='.':
+    while k<len(text):
+        newtext+=text[k]
+        if text[k]=='.':
             if j<len(message):
                 if text[k+1]==' ':
                     newtext+=' '*int(message[j])
@@ -25,16 +25,16 @@ def spaces_after_point_encode(file1,file2):
 def spaces_after_point_decode(text):
     k=0
     message=''
-    for i in text:
-        k+=1
-        if i=='.':
-            if text[k+1]==' ':
-                if text[k+2]==' ': # избежание случаев, когда много пробелов изначально
+    while k<len(text):
+        if text[k]=='.':
+            if text[k+2]==' ':
+                if text[k+3]==' ': # избежание случаев, когда много пробелов изначально
                     pass
                 else:
                     message+='1'
             else:
                 message+='0'
+        k+=1        
     return extract_secret(message)
 
 if __name__ == "__main__":
