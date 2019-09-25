@@ -11,9 +11,8 @@ def make_a_dict():
         d[list[i]]=list[i+1]
     return(d) 
 
-d=make_a_dict()
-
 def typos_encode(file1,file2):
+    d=make_a_dict()
     with open(file1,'r') as file:
         message=bin_secret(file.read())
     with open(file2,'r') as file:  
@@ -54,7 +53,6 @@ def typos_decode(text):
 
 if __name__ == "__main__":
     text=typos_encode('./textfiles/secret.txt','./textfiles/graphology.txt')
-    print(text)
     code=typos_decode(text)
     print(code)
 
