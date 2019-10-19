@@ -95,6 +95,11 @@ synonym={  #по версии онлайн-переводчика
 }
 
 
+def preprocessing(text):
+    text=text.replace('  ',' ')
+    return text
+
+
 class Stego:
     def __init__(self, input_file, output_file, method, secret=None):
         self.input = input_file
@@ -317,6 +322,80 @@ class Stego:
         with open(self.output) as file:
             file.write(extract_secret(message))
 
+    def _spaces_after_point_encode(self):
+        message = bin_secret(self.secret)
+        with open(self.input, 'r') as file:  
+            text=file.read()
+        k=0
+        j=0
+        newtext=''
+        while k<len(text):
+            newtext+=text[k]
+            if text[k]=='.':
+                if j<len(message):
+                    if text[k+1]==' ':
+                        newtext+=' '*int(message[j])
+                    else:
+                        newtext+=' '*(int(message[j])+1)
+                j+=1
+            k+=1
+        with open(self.output, 'w') as file:
+            file.write(newtext)
+
+    def _spaces_after_point_decode(self):
+        k=0
+        message=''
+        with open(self.input, 'r') as file:
+            text = file.read()
+        while k<len(text):
+            if text[k]=='.':
+                if text[k+2]==' ':
+                    if text[k+3]==' ': # избежание случаев, когда много пробелов изначально
+                        pass
+                    else:
+                        message+='1'
+                else:
+                    message+='0'
+            k+=1        
+        #return extract_secret(message)
+        with open(self.output, 'w') as file:
+            file.write(extract_secret(message))
+
+    def _spaces_between_words_encode(self):
+        message = bin_secret(self.secret)
+        with open(self.input, 'r') as file:  
+            text = preprocessing(file.read())
+        k=0
+        j=0
+        newtext=''
+        while k<len(text):
+            newtext+=text[k]
+            if text[k-1]!=' ' and text[k]==' ' and text[k+1]!=' ':
+                if j<len(message):
+                    newtext+=' '*int(message[j])
+                    j+=1
+                k+=1
+            else:
+                k+=1
+        with open(self.output, 'w') as file:
+            file.write(newtext)
+
+    def _spaces_between_words_decode(self):
+        k=0
+        message=''
+        with open(self.input, 'r') as file:
+            text = file.read()
+        while k<len(text):
+            if text[k-1]!=' ' and text[k]==' ':
+                if text[k]==' ' and text[k+1]!=' ':
+                    message+='0'
+                elif text[k]==' ' and text[k+1]==' ' and text[k+2]!=' ':
+                    message+='1'
+                else:
+                    pass
+            k+=1  
+        with open(self.output, 'w') as file:
+            file.write(extract_secret(message))
 
 if __name__ == "__main__":
     pass
