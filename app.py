@@ -446,7 +446,23 @@ if __name__ == "__main__":
 
     for o, a in opts:
         if o in ('-h', '--help'):
-            print("Use python3 client.py -h (--help)")
+            print("Define input and output files:")
+            print("-i [--input] a.txt")
+            print("-o [--output] b.txt\n")
+            print("Define encode/decode method:")
+            print("-e [--encode] or -d [--decode]\n")
+            print("Define stego secret:")
+            print("-s [--secret] supersecret\n")
+            print("Define method")
+            print("Support methods:")
+            print("1) registers")
+            print("2) change_alphabet")
+            print("3) spaces_in_the_end")
+            print("4) typos")
+            print("5) punct")
+            print("6) synonym")
+            print("7) spaces_after_point")
+            print("8) spaces_between_words")
             sys.exit(0)
 
         elif o in ('-i', '--input'):
