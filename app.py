@@ -1,6 +1,9 @@
 from autocorrect import spell
 import random
 from random import randint
+import click
+import getopt
+import sys
 
 
 def bin_alpha(alpha):
@@ -397,6 +400,83 @@ class Stego:
         with open(self.output, 'w') as file:
             file.write(extract_secret(message))
 
+    @classmethod
+    def stego(cls, input_file, output, method, secret=None, encode=None, decode=None):
+        if encode:
+            method += "_encode"
+        else:
+            method += "_decode"
+
+        methods = {'registers_encode' : cls._registers_encode,
+                'registers_decode' : cls._registers_decode,
+                'change_alphabet_encode' : cls._change_alphabet_encode,
+                'change_alphabet_decode' : cls._change_alphabet_decode,
+                'spaces_in_the_end_encode' : cls._spaces_in_the_end_encode,
+                'spaces_in_the_end_decode' : cls._spaces_in_the_end_decode,
+                'typos_encode' : cls._typos_encode,
+                'typos_decode' : cls._typos_decode,
+                'punct_encode' : cls._punct_encode,
+                'punct_decode' : cls._punct_decode,
+                'synonym_encode' : cls._synonym_encode, 
+                'synonym_decode' : cls._synonym_decode,
+                'spaces_after_point_encode' : cls._spaces_after_point_encode,
+                'spaces_after_point_decode' : cls._spaces_after_point_decode,
+                'spaces_between_words_encode' : cls._spaces_between_words_encode, 
+                'spaces_between_words_decode' : cls._spaces_between_words_decode,
+                }
+
+        stego_class = cls(input_file, output_file, methods[method], secret)
+        stego_class.method(stego_class)
+
+
+
 if __name__ == "__main__":
-    pass
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "hi:o:s:m:de", ["input=", "help", "output=", "secret=", "method=", 'decode', 'encode'])
+    except getopt.GetoptError as err:
+        print(err)
+        sys.exit(2)
+
+    input_file = False
+    output_file = False
+    stego_method = False
+    stego_secret = False
+    decode = False
+    encode = False
+
+    for o, a in opts:
+        if o in ('-h', '--help'):
+            print("Use python3 client.py -h (--help)")
+            sys.exit(0)
+
+        elif o in ('-i', '--input'):
+            input_file = a
+        elif o in ('-o', '--output'):
+            output_file = a
+        elif o in ('-s', '--secret'):
+            stego_secret = a
+        elif o in ('-d', '--decode'):
+            decode = True
+        elif o in ('-e', '--encode'):
+            encode = True
+        elif o in ('-m', '--method'):
+            stego_method = a
+        else:
+            assert False, "unhandled option"
+
+    if decode + encode == 2 or decode + encode == 0:
+        print("Incorrect encode/decode definition")
+        sys.exit(2)
+
+    if not input_file or not output_file:
+        print("Error: output/input files not defined!")
+
+    if not stego_method:
+        print("Error: stego method not defined!")
+        sys.exit(2)
+
+    if encode and not stego_secret:
+        print("Error: secret not defined!")
+
     
+    Stego.stego(input_file, output_file, stego_method, secret=stego_secret, decode=decode, encode=encode)
