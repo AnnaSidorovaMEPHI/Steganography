@@ -24,7 +24,7 @@ def extract_secret(binary_secret):
     step = 0
     for i in binary_secret:
         part += i
-        step += 1
+        step += 1   
         if step == 8:
             if part != '00000000':
                 parsed.append(part)
@@ -171,7 +171,7 @@ class Stego:
                 secret += '1'
             elif i == 'e':
                 secret += '0'
-        with open(self.out, 'w') as file:
+        with open(self.output, 'w') as file:
             file.write(extract_secret(secret))
 
     def _spaces_in_the_end_encode(self):
@@ -322,7 +322,7 @@ class Stego:
                 pass
             symbols += 1
         #return extract_secret(message)
-        with open(self.output) as file:
+        with open(self.output, 'w') as file:
             file.write(extract_secret(message))
 
     def _spaces_after_point_encode(self):
